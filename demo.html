@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<!-- 引入 ECharts 文件 -->
+<script src="echarts.js"></script>
+<script src="nan2_tong1.js"></script>
+
+<title>demo</title>
+	<style type="text/css">
+	* {margin:0; padding:0; list-style:none;}
+	div.grid {
+		<!-- background-image:
+			linear-gradient(rgba(255,255,255,.2) 1px, transparent 0),
+			linear-gradient(90deg, rgba(255,255,255,.2) 1px, transparent 0),
+			linear-gradient(white 0.5px, transparent 0),
+			linear-gradient(90deg, white 0.5px, transparent 0);
+		background-size: 15px 15px, 15px 15px, 75px 75px, 75px 75px;-->
+		background-image: url(timg.jpg);
+		background-repeat:no-repeat;
+		position:absolute; 
+		width:100%; 
+		top:0px; 
+		bottom:0px;
+	}
+	.heading { color: #FF0000; }
+	body { 
+		background-image: url(timg.jpg);
+		background-color: #000000;
+		background-repeat:no-repeat;
+	}
+	td.inset {
+		border="1";
+		border-top-style:inset;
+		align: left;
+		valign: top;
+		vertical-align:text-top;
+		color: #800000;
+		letter-spacing:3px;
+		padding-top: 10px;
+	}
+	th.inset {
+		border="1";
+		border-top-style:inset;
+		align: left;
+		color: #800000;
+		letter-spacing:2px;
+	}
+	</style>
+</head>
+<body>
+<div class="grid">
+<table border="0" height=100% width=100%>
+  <tr height=60% width=100%>
+    <td id="ditu" rowspan="2" width=60% align=left></td>
+    <td id="tongji"></td>
+  </tr>
+  <tr>
+    <td id="xinxi" valign="top">
+		<table border="0" height=100% width=100% cellspacing="10" style="padding-left: 30px; padding-right: 50px; padding-top: 10px">
+			<th height=20% align=left class="inset"><h1 class="heading">告警人员名单:</h1></th>
+			<tr>
+				<td class="inset">
+					<script>
+						var namelist=new Array("宾白","宾鸿","宾实","彬彬","彬炳","彬郁","斌斌","斌蔚","滨海","波光","波鸿","波峻","波涛","博瀚","博超","博达","博厚","博简","博明","博容","博赡","博涉","博实","博涛","博文","博学","博雅","博延","博艺","博易","博裕","博远","德本","德海","德厚","德华","德辉","德惠","德容","德润","德寿","德水","德馨","德曜","宾白","宾鸿","宾实","彬彬","彬炳","彬郁")
+						for (var i=0;i<namelist.length;i++)
+						{
+						document.write(namelist[i] + "  ");
+						}
+					</script>
+				</td>
+			</tr>
+		</table>
+	</td>
+  </tr>
+</table>
+</div>
+<script>
+var ditu = echarts.init(document.getElementById('ditu'));
+var tongji = echarts.init(document.getElementById('tongji'));
+ditu.setOption({
+	series: [{
+		type: 'map',
+		map: '南通',
+		itemStyle:{
+            normal:{
+				label:{show:true},
+				borderWidth:1,//省份的边框宽度
+				borderColor:'#f60',//省份的边框颜色
+				color:'#ece2df'//地图背景颜色
+				//areaStyle:{color:'#f60'}//设置地图颜色
+			},
+            emphasis:{label:{show:true}}
+        },
+		layoutCenter: ['50%', '50%'],
+		left: 'center',
+
+	}]
+});
+tongji.setOption({
+	title: {
+        x: 'center',
+        y: 'center',
+		text: '总人数',
+        subtext: '500',
+		padding: 20,
+		textStyle: {
+		    fontSize: 40,
+			fontWeight: 'bolder',
+			color: '#00CCFF'
+		},
+		subtextStyle: {
+		    fontSize: 30,
+			fontWeight: 'bolder',
+			color: '#999'
+		},
+
+	},
+    tooltip: {
+        trigger: 'item',
+        formatter: "{a} <br/>{b}: {c} ({d}%)"
+    },
+    legend: {
+        orient: 'vertical',
+        x: 'left',
+		y: 'center',
+		
+        data:[            
+			{
+                name:'告警人数',
+                icon : 'bar',
+                textStyle:{fontWeight:'bold', color:'yellow'}
+            },           
+			{
+                name:'正常人数',
+                icon : 'bar',
+                textStyle:{fontWeight:'bold', color:'#ccc'}
+            }]
+    },
+    series: [
+        {
+            name: "人员分布",
+            type:'pie',
+            radius: ['50%', '70%'],
+            avoidLabelOverlap: true,
+
+            labelLine: {
+                normal: {
+                    show: true
+                }
+            },
+            label: {
+                normal: {
+                    formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
+                    backgroundColor: '#eee',
+                    borderColor: '#aaa',
+                    borderWidth: 1,
+                    borderRadius: 4,
+                    // shadowBlur:3,
+                    // shadowOffsetX: 2,
+                    // shadowOffsetY: 2,
+                    // shadowColor: '#999',
+                    // padding: [0, 7],
+                    rich: {
+                        a: {
+                            color: '#999',
+                            lineHeight: 22,
+                            align: 'center'
+                        },
+                        // abg: {
+                        //     backgroundColor: '#333',
+                        //     width: '100%',
+                        //     align: 'right',
+                        //     height: 22,
+                        //     borderRadius: [4, 4, 0, 0]
+                        // },
+                        hr: {
+                            borderColor: '#aaa',
+                            width: '100%',
+                            borderWidth: 0.5,
+                            height: 0
+                        },
+                        b: {
+                            fontSize: 16,
+                            lineHeight: 33
+                        },
+                        per: {
+                            color: '#eee',
+                            backgroundColor: '#334455',
+                            padding: [2, 4],
+                            borderRadius: 2
+                        }
+                    }
+                }
+            },
+            data:[
+                {
+					value:50, 
+					name:'告警人数',
+					itemStyle: {
+						normal: {
+							color: '#FF0000',
+							shadowColor: 'rgba(0, 0, 0, 0.5)'
+						}
+					},
+					label:{
+						normal:{
+							//formatter:"{a} {b}: {c} ({d}%)",
+							fontSize: 20,
+							fontWeight: 'bold',
+						}
+					}
+				},
+                {
+					value:450, 
+					name:'正常人数',
+					itemStyle: {
+						normal: {
+							color: '#4488cc',
+							shadowColor: 'rgba(0, 0, 0, 0.5)'
+						}
+					},
+					label:{
+						normal:{
+							//formatter:"{a} {b}: {c} ({d}%)",
+							fontSize: 20,
+							color: '#333',
+							fontWeight: 'bold',
+						}
+					}
+				},
+            ]
+        }
+    ]
+});
+</script>
+</body>
+</html>
